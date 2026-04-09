@@ -14,6 +14,6 @@ FullNextDate = true
 Search = true
 Token = ``
 
-# Запуск с настройками по умолчанию (порт 7540, БД scheduler.db)
+### Запуск с настройками по умолчанию (порт 7540, БД scheduler.db)
 go run main.go
 
