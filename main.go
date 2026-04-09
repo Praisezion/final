@@ -8,17 +8,18 @@ import (
 
 	_ "modernc.org/sqlite"
 
+	"final/pkg/api"
 	"final/pkg/db"
 )
 
 func main() {
-	// server prot
+	// server port ***
 	port := os.Getenv("TODO_PORT")
 	if port == "" {
 		port = "7540"
 	}
 
-	// BD  proverka
+	// DB check ***
 	dbFile := os.Getenv("TODO_DBFILE")
 	if dbFile == "" {
 		dbFile = "scheduler.db"
@@ -31,22 +32,22 @@ func main() {
 
 	fmt.Printf("База данных: %s\n", dbFile)
 
-	webDir := "./web"
+	// api
+	api.Init()
 
-	// proverka dir
+	webDir := "./web"
 	if _, err := os.Stat(webDir); os.IsNotExist(err) {
 		log.Fatal("Директория web не найдена")
 	}
 
 	fs := http.FileServer(http.Dir(webDir))
-
 	http.Handle("/", fs)
 
-	// start servera
+	// start server
 	addr := ":" + port
-	fmt.Printf("Сервер запущен на http://localhost:%s\n", port)
+	fmt.Printf("start http://localhost:%s\n", port)
 
 	if err := http.ListenAndServe(addr, nil); err != nil {
-		log.Fatal("Ошибка запуска сервера:", err)
+		log.Fatal("errpr:", err)
 	}
 }

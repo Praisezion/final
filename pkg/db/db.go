@@ -51,3 +51,19 @@ func Close() error {
 	}
 	return nil
 }
+
+func AddTask(task *Task) (int64, error) {
+	query := `INSERT INTO scheduler (date, title, comment, repeat) 
+	          VALUES (?, ?, ?, ?)`
+	result, err := DB.Exec(query, task.Date, task.Title, task.Comment, task.Repeat)
+	if err != nil {
+		return 0, err
+	}
+
+	id, err := result.LastInsertId()
+	if err != nil {
+		return 0, err
+	}
+
+	return id, nil
+}
